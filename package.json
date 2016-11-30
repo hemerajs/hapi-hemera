@@ -1,0 +1,44 @@
+{
+  "name": "hapi-hemera",
+  "description": "Hemera micro-services plugin for hapi",
+  "version": "3.0.0",
+  "repository": "git://github.com/aruss/hapi-hemera",
+  "main": "lib/index.js",
+  "autor": "Russlan Akiev (http://github.com/aruss",
+  "keywords": [
+    "hapi",
+    "plugin",
+    "microservices",
+    "hemera"
+  ],
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "dependencies": {
+    "boom": "4.x.x",
+    "hoek": "4.x.x",
+    "items": "2.x.x",
+    "joi": "10.x.x",
+    "jsonic": "0.2.x"
+  },
+  "peerDependencies": {
+    "hapi": ">=11.x.x"
+  },
+  "devDependencies": {
+    "code": "4.0.x",
+    "coveralls": "2.11.x",
+    "docco": "0.7.x",
+    "istanbul": "0.4.x",
+    "mocha": "3.2.x",
+    "mocha-lcov-reporter": "1.2.x",
+    "sinon": "1.17.x",
+    "hapi": "15.x.x"
+  },
+  "scripts": {
+    "annotate": "docco lib/index.js -o docs/",
+    "test": "mocha -t 5000 --recursive",
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec -t 5000 --recursive",
+    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report text-lcov -- -R spec | node ./node_modules/coveralls/bin/coveralls.js"
+  },
+  "license": "MIT"
+}
