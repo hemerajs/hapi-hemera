@@ -36,12 +36,7 @@ describe('Basic', function () {
 
         const server = new Hapi.Server()
         server.connection();
-        server.register({
-            register: HapiHemera,
-            options: {
-                natsUrl: natsUrl
-            }
-        }, (err) => {
+        server.register(HapiHemera, (err) => {
 
             expect(err).to.not.exist();
             expect(server.hemera).to.exist();
