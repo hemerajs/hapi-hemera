@@ -1,8 +1,8 @@
 {
   "name": "hapi-hemera",
   "description": "Hemera micro-services plugin for hapi",
-  "version": "3.0.0",
-  "repository": "git://github.com/aruss/hapi-hemera",
+  "version": "0.1.0",
+  "repository": "git://github.com/hemerajs/hapi-hemera",
   "main": "lib/index.js",
   "autor": "Russlan Akiev (http://github.com/aruss",
   "keywords": [
@@ -19,7 +19,8 @@
     "hoek": "4.x.x",
     "items": "2.x.x",
     "joi": "10.x.x",
-    "jsonic": "0.2.x"
+    "jsonic": "0.2.x",
+    "nats-hemera": "^0.1.50"
   },
   "peerDependencies": {
     "hapi": ">=11.x.x"
@@ -28,11 +29,14 @@
     "code": "4.0.x",
     "coveralls": "2.11.x",
     "docco": "0.7.x",
+    "hapi": "15.x.x",
+    "hemera": "0.0.5",
+    "hemera-testsuite": "^1.0.0",
     "istanbul": "0.4.x",
     "mocha": "3.2.x",
     "mocha-lcov-reporter": "1.2.x",
-    "sinon": "1.17.x",
-    "hapi": "15.x.x"
+    "nats": "^0.6.8",
+    "sinon": "1.17.x"
   },
   "scripts": {
     "annotate": "docco lib/index.js -o docs/",
