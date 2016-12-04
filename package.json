@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "repository": "git://github.com/hemerajs/hapi-hemera",
   "main": "lib/index.js",
-  "autor": "Russlan Akiev (http://github.com/aruss",
+  "autor": "Russlan Akiev (http://github.com/aruss)",
   "keywords": [
     "hapi",
     "plugin",
