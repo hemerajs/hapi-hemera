@@ -1,6 +1,6 @@
 # hapi-hemera
 
-- __Status:__ In Development
+- __Status:__ In development
 
 **hapi-hemera** is a [**Hemera**](https://github.com/hemerajs/hemera) micro-services plugin
 for [hapi](https://github.com/hapijs/hapi). The plugin integrates the **Hemera** functionality into
