@@ -24,8 +24,9 @@ server.register({
 })
 ```
 
-#### Basic usage
+### Basic usage
 
+#### Define
 ```js
 server.hemera.add({
   topic: 'generator',
@@ -34,6 +35,7 @@ server.hemera.add({
 })
 ```
 
+#### Use reply interface
 ```js
 const handler = function (request, reply) {
 
@@ -44,6 +46,7 @@ const handler = function (request, reply) {
 }
 ```
 
+#### Use hemera instance
 ```js
 const handler = function (request, reply) {
 
@@ -54,4 +57,20 @@ const handler = function (request, reply) {
 
   })
 }
+```
+
+#### Server methods
+```js
+server.action('generate', 'topic:generator,cmd:id')
+// or ....
+server.action('generate', 'topic:generator,cmd:id', {
+  cache: {
+    expiresIn: 1000,
+    generateTimeout: 3000
+  }
+})
+
+server.methods.generate((err, result) => {
+
+})
 ```
