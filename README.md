@@ -10,8 +10,48 @@ for [hapi](https://github.com/hapijs/hapi). The plugin integrates the **Hemera**
 
 #### Plugin Registration
 
-**hapi-hemera** is registered with a **hapi** server using the `server.register()` method. Once
-registered it decorates the `server` object with a reference to the `hemera` object initialized
-using the provided plugin options. Default plugin options:
+```js
+const server = new Hapi.Server()
+server.connection()
+server.register({
+  register: require('hapi-hemera'),
+  options: {
+    hemera: {},
+    nats: {
+      url: gnatsUrl
+    }
+  }
+})
+```
 
-TBD;
+#### Basic usage
+
+```js
+server.hemera.add({
+  topic: 'generator',
+  cmd: 'id'
+}, (message, next) => {
+})
+```
+
+```js
+const handler = function (request, reply) {
+
+  return reply.act({
+    topic: 'generator',
+    cmd: 'id'
+  })
+}
+```
+
+```js
+const handler = function (request, reply) {
+
+  return request.hemera.act({
+    topic: 'generator',
+    cmd: 'id'
+  }, function(err, result) {
+
+  })
+}
+```
