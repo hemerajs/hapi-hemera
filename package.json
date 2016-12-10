@@ -20,7 +20,7 @@
     "items": "2.x.x",
     "joi": "10.x.x",
     "jsonic": "0.2.x",
-    "nats-hemera": "^0.1.50"
+    "nats-hemera": "0.1.x"
   },
   "peerDependencies": {
     "hapi": ">=11.x.x"
@@ -30,19 +30,21 @@
     "coveralls": "2.11.x",
     "docco": "0.7.x",
     "hapi": "15.x.x",
-    "hemera": "0.0.5",
-    "hemera-testsuite": "^1.0.0",
+    "hemera": "0.0.x",
+    "hemera-testsuite": "1.0.x",
     "istanbul": "0.4.x",
     "mocha": "3.2.x",
     "mocha-lcov-reporter": "1.2.x",
-    "nats": "^0.6.8",
-    "sinon": "1.17.x"
+    "nats": "0.6.x",
+    "sinon": "1.17.x",
+    "eslint": "3.11.x"
   },
   "scripts": {
     "annotate": "docco lib/index.js -o docs/",
     "test": "mocha -t 5000 --recursive",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec -t 5000 --recursive",
-    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report text-lcov -- -R spec | node ./node_modules/coveralls/bin/coveralls.js"
+    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report text-lcov -- -R spec | node ./node_modules/coveralls/bin/coveralls.js",
+    "lint": "eslint --ext .js lib test examples benchmark"
   },
   "license": "MIT"
 }
