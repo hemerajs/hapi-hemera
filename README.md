@@ -1,4 +1,5 @@
 # hapi-hemera
+[![Build Status](https://travis-ci.org/hemerajs/hapi-hemera.svg?branch=master)](https://travis-ci.org/hemerajs/hapi-hemera)
 
 - __Status:__ In development
 
