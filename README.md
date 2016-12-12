@@ -102,9 +102,8 @@ server.route({
 })
 ```
 
-```curl
- curl -H "Content-Type: application/json" -X POST -d \
- '{"a":2,"b":2}' http://localhost:3000/foo/math/add
+```sh
+ curl -H "Content-Type: application/json" -X POST -d '{"a":2,"b":2}' http://localhost:3000/foo/math/add
 ```
 
 use query parameters 
