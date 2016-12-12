@@ -17,27 +17,26 @@
   "dependencies": {
     "boom": "4.x.x",
     "hoek": "4.x.x",
-    "items": "2.x.x",
-    "joi": "10.x.x",
-    "jsonic": "0.2.x",
+    "nats": "0.6.x",
     "nats-hemera": "0.1.x"
   },
   "peerDependencies": {
     "hapi": ">=11.x.x"
   },
   "devDependencies": {
+    "joi": "10.x.x",
+    "catbox-memory": "2.0.x",
     "code": "4.0.x",
     "coveralls": "2.11.x",
     "docco": "0.7.x",
+    "eslint": "3.11.x",
     "hapi": "15.x.x",
     "hemera": "0.0.x",
     "hemera-testsuite": "1.0.x",
     "istanbul": "0.4.x",
     "mocha": "3.2.x",
     "mocha-lcov-reporter": "1.2.x",
-    "nats": "0.6.x",
-    "sinon": "1.17.x",
-    "eslint": "3.11.x"
+    "sinon": "1.17.x"
   },
   "scripts": {
     "annotate": "docco lib/index.js -o docs/",
