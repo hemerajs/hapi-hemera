@@ -1,38 +1,28 @@
-/*global it describe before after*/
-
 'use strict'
 
-// Load modules
-
-const
-  Hapi = require('hapi'),
-  HemeraTestsuite = require('hemera-testsuite'),
-  Code = require('code'),
-
-  HapiHemera = require('../lib')
+const Hapi = require('hapi')
+const HemeraTestsuite = require('hemera-testsuite')
+const Code = require('code')
+const HapiHemera = require('../lib')
 
 const expect = Code.expect
 
 process.setMaxListeners(0)
 
-describe('Basic', function () {
-
+describe('Methods', function () {
   let natsServer
 
   // Start up our own nats-server
   before((done) => {
-
     natsServer = HemeraTestsuite.start_server(6242, [], done)
   })
 
   // Shutdown our server after we are done
   after(() => {
-
     natsServer.kill()
   })
 
   it('Register plugin with method configuration', (done) => {
-
     const server = new Hapi.Server({
       cache: {
         engine: require('catbox-memory'),
@@ -49,7 +39,7 @@ describe('Basic', function () {
             pattern: {
               topic: 'math',
               cmd: 'add',
-              timeout$: 5000,
+              timeout$: 5000
             }
           },
           fooCached: {
@@ -67,7 +57,6 @@ describe('Basic', function () {
         }
       }
     }, (err) => {
-
       expect(err).to.not.exist()
       expect(server.hemera).to.exist()
 
@@ -75,7 +64,6 @@ describe('Basic', function () {
         topic: 'math',
         cmd: 'add'
       }, (args, next) => {
-
         next(null, args.a + args.b)
       })
 
@@ -83,7 +71,6 @@ describe('Basic', function () {
         a: 1,
         b: 2
       }, (err, resp) => {
-
         expect(err).to.not.exist()
         expect(resp).to.exist()
 
@@ -91,7 +78,6 @@ describe('Basic', function () {
           a: 1,
           b: 2
         }, (err, resp) => {
-
           expect(err).to.not.exist()
           expect(resp).to.exist()
           done()
