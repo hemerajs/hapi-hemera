@@ -86,6 +86,27 @@ server.route({
   }
 }
 ```
+
+#### Use action mapping
+```js
+// as string
+server.action('generate', 'topic:generator,cmd:id')
+// or as object
+server.action('generate', {
+  topic: 'generator',
+  cmd: 'id'
+})
+// or with cache
+server.action('generate', 'topic:generator,cmd:id', {
+  cache: {
+    expiresIn: 1000,
+    generateTimeout: 3000
+  }
+})
+// call
+server.methods.generate((err, result) => {})
+```
+
 ### Use server handlers 
 
 Use body 
