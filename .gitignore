@@ -17,4 +17,3 @@ coverage.*
 lib-cov
 complexity.md
 coverage/
-.vscode
