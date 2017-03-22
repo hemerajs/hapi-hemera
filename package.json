@@ -1,7 +1,7 @@
 {
   "name": "hapi-hemera",
   "description": "Hemera micro-services plugin for hapi",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": "git://github.com/hemerajs/hapi-hemera",
   "main": "lib/index.js",
   "autor": "Russlan Akiev (http://github.com/aruss)",
@@ -17,27 +17,26 @@
   "dependencies": {
     "boom": "4.x.x",
     "hoek": "4.x.x",
-    "items": "2.x.x",
-    "joi": "10.x.x",
-    "jsonic": "0.2.x",
-    "nats-hemera": "0.1.x"
+    "nats": "0.7.x",
+    "nats-hemera": "0.8.x"
   },
   "peerDependencies": {
     "hapi": ">=11.x.x"
   },
   "devDependencies": {
+    "joi": "10.x.x",
+    "catbox-memory": "2.0.x",
     "code": "4.0.x",
-    "coveralls": "2.11.x",
+    "coveralls": "2.12.x",
     "docco": "0.7.x",
-    "hapi": "15.x.x",
+    "eslint": "3.17.x",
+    "hapi": "16.x.x",
     "hemera": "0.0.x",
     "hemera-testsuite": "1.0.x",
     "istanbul": "0.4.x",
     "mocha": "3.2.x",
-    "mocha-lcov-reporter": "1.2.x",
-    "nats": "0.6.x",
-    "sinon": "1.17.x",
-    "eslint": "3.11.x"
+    "mocha-lcov-reporter": "1.3.x",
+    "sinon": "1.17.x"
   },
   "scripts": {
     "annotate": "docco lib/index.js -o docs/",

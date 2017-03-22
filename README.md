@@ -1,5 +1,6 @@
 # hapi-hemera
 [![Build Status](https://travis-ci.org/hemerajs/hapi-hemera.svg?branch=master)](https://travis-ci.org/hemerajs/hapi-hemera)
+[![NPM Downloads](https://img.shields.io/npm/dt/hapi-hemera.svg?style=flat)](https://www.npmjs.com/package/hapi-hemera)
 
 - __Status:__ In development
 
@@ -17,61 +18,118 @@ server.connection()
 server.register({
   register: require('hapi-hemera'),
   options: {
-    hemera: {},
-    nats: {
-      url: gnatsUrl
+    hemera:{
+      logLevel: 'info' 
+    },
+    nats: 'nats://localhost:6242',
+    
+    // In case you want to use hapi server methods
+    methods: {
+      add: {
+        pattern: {
+          topic: 'math',
+          cmd: 'add',
+          timeout$: 5000,
+        }
+        // Optional caching parameters 
+        cache: {
+          expiresIn: 60000,
+          staleIn: 30000,
+          staleTimeout: 10000,
+          generateTimeout: 100
+        }
+      }
     }
   }
 })
 ```
 
-### Basic usage
-
-#### Define
-```js
-server.hemera.add({
-  topic: 'generator',
-  cmd: 'id'
-}, (message, next) => {
-})
-```
-
 #### Use reply interface
 ```js
-const handler = function (request, reply) {
+server.route({
+  method: 'POST',
+  path: '/add',
+  handler: function (request, reply) {
 
-  return reply.act({
-    topic: 'generator',
-    cmd: 'id'
-  })
+    return reply.act({ topic: 'math', cmd: 'add', a: 2, b: 2 })
+  }
 }
 ```
 
 #### Use hemera instance
 ```js
-const handler = function (request, reply) {
+server.route({
+  method: 'POST',
+  path: '/add',
+  handler: function (request, reply) {
 
-  return request.hemera.act({
-    topic: 'generator',
-    cmd: 'id'
-  }, function(err, result) {
+    return reply.hemera.act({ topic: 'math', cmd: 'add', a: 2, b: 2 },
+      function(err, result) {
 
-  })
+        reply(err || result)
+      })
+  }
 }
 ```
 
-#### Server methods
+#### Use server methods
 ```js
-server.action('generate', 'topic:generator,cmd:id')
-// or ....
-server.action('generate', 'topic:generator,cmd:id', {
-  cache: {
-    expiresIn: 1000,
-    generateTimeout: 3000
+server.route({
+  method: 'POST',
+  path: '/add',
+  handler: function (request, reply) {
+
+    server.methods.add({ a: 1, b: 2 }, (err, resp) => {
+      
+      reply(err || result)
+    }) 
+  }
+}
+```
+### Use server handlers 
+
+Use body 
+```js
+server.route({
+  method: 'POST',
+  path: '/foo/{topic}/{cmd}',
+  handler: {
+    act: {
+      pattern: {
+        timeout$: 5000
+      }
+    }
   }
 })
+```
 
-server.methods.generate((err, result) => {
+```sh
+ curl -H "Content-Type: application/json" -X POST -d '{"a":2,"b":2}' http://localhost:3000/foo/math/add
+```
 
+use query parameters 
+```js
+server.route({
+  method: 'POST',
+  path: '/math/{cmd}',
+  config: {
+    validate: {
+      query: {
+        a: Joi.number().required(),
+        b: Joi.number().required()
+      }
+    }
+  },
+  handler: {
+    act: {
+      pattern: {
+        topic: 'math',
+        timeout$: 5000
+      }
+    }
+  }
 })
+```
+```curl
+ curl http://localhost:3000/foo/math/add?a=2&b=2
 ```
