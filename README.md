@@ -2,6 +2,8 @@
 [![Build Status](https://travis-ci.org/hemerajs/hapi-hemera.svg?branch=master)](https://travis-ci.org/hemerajs/hapi-hemera)
 [![NPM Downloads](https://img.shields.io/npm/dt/hapi-hemera.svg?style=flat)](https://www.npmjs.com/package/hapi-hemera)
 
+[![js-standard-style](https://raw.githubusercontent.com/feross/standard/master/badge.png)](https://github.com/feross/standard)
+
 - __Status:__ In development
 
 **hapi-hemera** is a [**Hemera**](https://github.com/hemerajs/hemera) micro-services plugin
