@@ -21,10 +21,18 @@ server.register({
   register: require('hapi-hemera'),
   options: {
     hemera:{
-      logLevel: 'info' 
+      name: 'test',
+      load: {
+        sampleInterval: 1
+      },
+      logLevel: 'info'
     },
-    nats: 'nats://localhost:6242',
-    
+    nats: 'nats://localhost:4242',
+    // If you want to add hemera plugins
+    plugins: [
+      require('hemera-joi'),
+      require('hemera-stats')
+    ],
     // In case you want to use hapi server methods
     methods: {
       add: {
