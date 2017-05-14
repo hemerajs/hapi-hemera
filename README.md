@@ -23,7 +23,7 @@ server.register({
     hemera:{
       name: 'test',
       load: {
-        sampleInterval: 1
+        sampleInterval: 1000
       },
       logLevel: 'info'
     },

@@ -18,7 +18,7 @@
     "boom": "4.3.x",
     "hoek": "4.1.x",
     "nats": "0.7.x",
-    "nats-hemera": "1.1.x"
+    "nats-hemera": "1.2.x"
   },
   "peerDependencies": {
     "hapi": ">=11.x.x"
