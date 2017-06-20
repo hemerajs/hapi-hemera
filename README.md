@@ -52,9 +52,9 @@ server.register({
           generateTimeout: 100
         }
       }
-    },
-    // run chairo and hemera side-by-side
-    hapiDecoratePrefix: 'testPrefix'
+    }
+    // customize hapi decorations {prefix}_{action}
+    // decoratePrefix: 'testPrefix'
   }
 })
 ```
@@ -170,7 +170,7 @@ server.route({
  curl http://localhost:3000/foo/math/add?a=2&b=2
 ```
 
-prefix the hapi decorations (chairo and hemera co-exist)
+customize hapi decorations
 
 ```js
 server.route({
@@ -185,7 +185,7 @@ server.route({
     }
   },
   handler: {
-    testPrefixact: {
+    testPrefix_act: {
       pattern: {
         topic: 'math',
         timeout$: 5000
@@ -203,7 +203,7 @@ server.route({
   path: '/add',
   handler: function (request, reply) {
 
-    return reply.testPrefixact({ topic: 'math', cmd: 'add', a: 2, b: 2 })
+    return reply.testPrefix_act({ topic: 'math', cmd: 'add', a: 2, b: 2 })
   }
 }
 ```

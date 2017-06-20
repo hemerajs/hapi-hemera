@@ -117,7 +117,7 @@ describe('Handlers', function () {
       register: HapiHemera,
       options: {
         nats: 'nats://localhost:6242',
-        hapiDecoratePrefix: 'test'
+        decoratePrefix: 'test'
       }
     }, (err) => {
       expect(err).to.not.exist()
@@ -158,7 +158,7 @@ describe('Handlers', function () {
       register: HapiHemera,
       options: {
         nats: 'nats://localhost:6242',
-        hapiDecoratePrefix: 'test'
+        decoratePrefix: 'test'
       }
     }, (err) => {
       expect(err).to.not.exist()
@@ -175,7 +175,7 @@ describe('Handlers', function () {
         method: 'POST',
         path: '/foo/{topic}/{cmd}',
         handler: {
-          testact: {
+          test_act: {
             pattern: {
               timeout$: 5000
             }

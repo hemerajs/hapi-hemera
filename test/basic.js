@@ -146,7 +146,7 @@ describe('Basic', function () {
         nats: {
           url: noAuthUrl
         },
-        hapiDecoratePrefix: 'test'
+        decoratePrefix: 'test'
       }
     }, (err) => {
       expect(err).to.not.exist()
@@ -166,7 +166,7 @@ describe('Basic', function () {
       })
 
       const handler = function (request, reply) {
-        return reply.testact({
+        return reply.test_act({
           topic: 'generator',
           cmd: 'id'
         })
