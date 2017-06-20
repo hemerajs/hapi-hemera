@@ -31,7 +31,10 @@ server.register({
     // If you want to add hemera plugins
     plugins: [
       require('hemera-joi'),
-      require('hemera-stats')
+      {
+        register: require('hemera-stats'),
+        options: { a: 1 }
+      }
     ],
     // In case you want to use hapi server methods
     methods: {
