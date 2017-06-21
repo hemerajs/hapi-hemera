@@ -192,7 +192,7 @@ server.register({
 
 // There is a method called `pattern` which enrich the passed data with the base pattern
 
-hemera.act(request.pattern({ a: 1 }))
+hemera.act({ a: 1 })
 
 // Results in following pattern
  

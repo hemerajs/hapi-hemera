@@ -7,7 +7,7 @@ const HemeraTestsuite = require('hemera-testsuite')
 
 const expect = Code.expect
 
-describe('Base Pattern', function () {
+describe('Request decorator', function () {
   const PORT = 6242
   const noAuthUrl = 'nats://localhost:' + PORT
   const flags = []
@@ -23,7 +23,52 @@ describe('Base Pattern', function () {
     natsServer.kill()
   })
 
-  it('Should be able to create base pattern with function', (done) => {
+  it('Should be able to act with request hemera instance', (done) => {
+    const server = new Hapi.Server()
+    server.connection()
+    server.register({
+      register: HapiHemera,
+      options: {
+        hemera: {},
+        basePattern: function (request) {
+          const basePattern = {
+            a: 1
+          }
+
+          return basePattern
+        },
+        nats: {
+          url: noAuthUrl
+        }
+      }
+    }, (err) => {
+      expect(err).to.not.exist()
+
+      server.hemera.add({
+        topic: 'math',
+        cmd: 'add'
+      }, (message, next) => {
+        return next(null, { result: message.a + message.b })
+      })
+
+      server.route({
+        method: 'GET',
+        path: '/api/add',
+        handler: function (request, reply) {
+          request.hemera.act({ topic: 'math', cmd: 'add', a: 1, b: 2 }, function (err, result) {
+            reply(result)
+          })
+        }
+      })
+      server.inject({ method: 'GET', url: '/api/add' }, (res) => {
+        expect(res.statusCode).to.equal(200)
+        expect(res.result).to.equal({ result: 3 })
+        done()
+      })
+    })
+  })
+
+  it('Should support string pattern in act and add', (done) => {
     const server = new Hapi.Server()
     server.connection()
     server.register({
@@ -48,112 +93,36 @@ describe('Base Pattern', function () {
         method: 'GET',
         path: '/api/add',
         handler: function (request, reply) {
-          reply(request.hemera.pattern({ b: 2 }))
-        }
-      })
-      server.inject({ method: 'GET', url: '/api/add' }, (res) => {
-        expect(res.statusCode).to.equal(200)
-        expect(res.result).to.equal({ a: 1, b: 2 })
-        done()
-      })
-    })
-  })
+          request.hemera.add('topic:math,cmd:add', (message, next) => {
+            return next(null, { result: message.a + message.b })
+          })
 
-  it('Should be able to create base pattern with object', (done) => {
-    const server = new Hapi.Server()
-    server.connection()
-    server.register({
-      register: HapiHemera,
-      options: {
-        hemera: {},
-        basePattern: {
-          a: 1
-        },
-        nats: {
-          url: noAuthUrl
-        }
-      }
-    }, (err) => {
-      expect(err).to.not.exist()
-
-      server.route({
-        method: 'GET',
-        path: '/api/add',
-        handler: function (request, reply) {
-          reply(request.hemera.pattern({ b: 2 }))
-        }
-      })
-      server.inject({ method: 'GET', url: '/api/add' }, (res) => {
-        expect(res.statusCode).to.equal(200)
-        expect(res.result).to.equal({ a: 1, b: 2 })
-        done()
-      })
-    })
-  })
-
-  it('Should be able to act with pattern function', (done) => {
-    const server = new Hapi.Server()
-    server.connection()
-    server.register({
-      register: HapiHemera,
-      options: {
-        hemera: {},
-        nats: {
-          url: noAuthUrl
-        }
-      }
-    }, (err) => {
-      expect(err).to.not.exist()
-
-      server.hemera.add({
-        topic: 'math',
-        cmd: 'add'
-      }, (message, next) => {
-        return next(null, { result: message.a + message.b })
-      })
-
-      server.hemera.add({
-        topic: 'math',
-        cmd: 'sub'
-      }, (message, next) => {
-        return next(null, { result: message.a - message.b })
-      })
-
-      server.route({
-        method: 'GET',
-        path: '/api/add',
-        handler: function (request, reply) {
-          request.hemera.act(request.hemera.pattern({
-            topic: 'math',
-            cmd: 'add',
-            a: 1,
-            b: 2
-          }), function (err, result) {
-            expect(err).to.not.exist()
-            this.act(request.hemera.pattern('topic:math,cmd:sub,a:10,b:' + result.result), function (err, result) {
-              reply(result)
-            })
+          request.hemera.act('topic:math,cmd:add,a:1,b:2', function (err, result) {
+            reply(result)
           })
         }
       })
       server.inject({ method: 'GET', url: '/api/add' }, (res) => {
         expect(res.statusCode).to.equal(200)
-        expect(res.result).to.equal({ result: 7 })
+        expect(res.result).to.equal({ result: 3 })
         done()
       })
     })
   })
 
-  it('Should include base pattern when we act', (done) => {
+  it('Should be able to add with request hemera instance', (done) => {
     const server = new Hapi.Server()
     server.connection()
     server.register({
       register: HapiHemera,
       options: {
         hemera: {},
-        basePattern: {
-          a: 1,
-          b: 2
+        basePattern: function (request) {
+          const basePattern = {
+            a: 1
+          }
+
+          return basePattern
         },
         nats: {
           url: noAuthUrl
@@ -162,22 +131,18 @@ describe('Base Pattern', function () {
     }, (err) => {
       expect(err).to.not.exist()
 
-      server.hemera.add({
-        topic: 'math',
-        cmd: 'add'
-      }, (message, next) => {
-        return next(null, { result: message.a + message.b })
-      })
-
       server.route({
         method: 'GET',
         path: '/api/add',
         handler: function (request, reply) {
-          request.hemera.act(request.hemera.pattern({
+          request.hemera.add({
             topic: 'math',
             cmd: 'add'
-          }), function (err, result) {
-            expect(err).to.not.exist()
+          }, (message, next) => {
+            return next(null, { result: message.a + message.b })
+          })
+
+          request.hemera.act({ topic: 'math', cmd: 'add', a: 1, b: 2 }, function (err, result) {
             reply(result)
           })
         }
