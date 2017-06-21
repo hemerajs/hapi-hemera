@@ -206,10 +206,12 @@ hemera.act({ a: 1 })
 ```js
 basePattern: function(request) {
   return {
-    traceId: request.plugins.zipkin.traceId.traceId,
-    spanId: request.plugins.zipkin.traceId.spanId,
-    sampled: request.plugins.zipkin.traceId.sampled,
-    flags: request.plugins.zipkin.traceId.flags
+    trace$: {
+      traceId: request.plugins.zipkin.traceId.traceId,
+      spanId: request.plugins.zipkin.traceId.spanId,
+      sampled: request.plugins.zipkin.traceId.sampled,
+      flags: request.plugins.zipkin.traceId.flags
+    }
   }
 }
 ```
