@@ -12,7 +12,7 @@ for [hapi](https://github.com/hapijs/hapi). The plugin integrates the **Hemera**
 
 ### Usage
 
-#### Plugin Registration
+## Plugin Registration
 
 ```js
 const server = new Hapi.Server()
@@ -57,7 +57,7 @@ server.register({
 })
 ```
 
-#### Use reply interface
+## Use reply interface
 ```js
 server.route({
   method: 'POST',
@@ -69,7 +69,7 @@ server.route({
 }
 ```
 
-#### Use hemera instance
+## Use hemera instance
 ```js
 server.route({
   method: 'POST',
@@ -85,7 +85,7 @@ server.route({
 }
 ```
 
-#### Use server methods
+## Use server methods
 ```js
 server.route({
   method: 'POST',
@@ -100,7 +100,7 @@ server.route({
 }
 ```
 
-#### Use action mapping
+## Use action mapping
 ```js
 // as string
 server.action('generate', 'topic:generator,cmd:id')
@@ -120,7 +120,7 @@ server.action('generate', 'topic:generator,cmd:id', {
 server.methods.generate((err, result) => {})
 ```
 
-### Use server handlers 
+## Use server handlers 
 
 Use body 
 ```js
@@ -166,4 +166,50 @@ server.route({
 ```
 ```curl
  curl http://localhost:3000/foo/math/add?a=2&b=2
+```
+
+## Enrich pattern with contextual data
+
+```js
+server.register({
+    register: HapiHemera,
+    options: {
+      hemera: {},
+      basePattern: function (request) {
+        const basePattern = {
+          trace$: {
+            traceId: request.headers['x-request-id']
+          }
+        }
+
+        return basePattern
+      },
+      nats: {
+        url: noAuthUrl
+      }
+    }
+})
+
+// There is a method called `pattern` which enrich the passed data with the base pattern
+
+hemera.act(request.pattern({ a: 1 }))
+
+// Results in following pattern
+ 
+ { a: 1, trace$: { traceId: 123 } }
+ 
+
+```
+
+### Example for [zipkin-instrumentation-hapi](https://github.com/openzipkin/zipkin-js/tree/master/packages/zipkin-instrumentation-hapi)
+
+```js
+basePattern: function(request) {
+  return {
+    traceId: request.plugins.zipkin.traceId.traceId,
+    spanId: request.plugins.zipkin.traceId.spanId,
+    sampled: request.plugins.zipkin.traceId.sampled,
+    flags: request.plugins.zipkin.traceId.flags
+  }
+}
 ```
