@@ -190,7 +190,7 @@ server.register({
     }
 })
 
-// There is a method called `pattern` which enrich the passed data with the base pattern
+// The basePattern is merged with the pattern
 
 hemera.act({ a: 1 })
 
