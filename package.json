@@ -1,7 +1,7 @@
 {
   "name": "hapi-hemera",
   "description": "Hemera micro-services plugin for hapi",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "repository": "git://github.com/hemerajs/hapi-hemera",
   "main": "lib/index.js",
   "autor": "Russlan Akiev (http://github.com/aruss)",
@@ -18,7 +18,8 @@
     "boom": "5.1.x",
     "hoek": "4.1.x",
     "nats": "0.7.x",
-    "nats-hemera": "1.3.x"
+    "nats-hemera": "1.3.x",
+    "tinysonic": "1.2.x"
   },
   "peerDependencies": {
     "hapi": ">=11.x.x"
