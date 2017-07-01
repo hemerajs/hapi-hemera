@@ -109,5 +109,85 @@ describe('Handlers', function () {
       })
     })
   })
-})
 
+  it('Use default handler act with decorate prefix', (done) => {
+    const server = new Hapi.Server()
+    server.connection()
+    server.register({
+      register: HapiHemera,
+      options: {
+        nats: 'nats://localhost:6242',
+        decoratePrefix: 'test'
+      }
+    }, (err) => {
+      expect(err).to.not.exist()
+      expect(server.hemera).to.exist()
+
+      server.hemera.add({
+        topic: 'math',
+        cmd: 'add'
+      }, (args, next) => {
+        next(null, args.a + args.b)
+      })
+
+      try {
+        server.route({
+          method: 'POST',
+          path: '/foo/{topic}/{cmd}',
+          handler: {
+            act: {
+              pattern: {
+                timeout$: 5000
+              }
+            }
+          }
+        })
+      } catch (err) {
+        expect(err).to.exist()
+        expect(err.toString()).to.include('Unknown handler: act')
+      }
+
+      done()
+    })
+  })
+
+  it('Use handler act with decorate prefix', (done) => {
+    const server = new Hapi.Server()
+    server.connection()
+    server.register({
+      register: HapiHemera,
+      options: {
+        nats: 'nats://localhost:6242',
+        decoratePrefix: 'test'
+      }
+    }, (err) => {
+      expect(err).to.not.exist()
+      expect(server.hemera).to.exist()
+
+      server.hemera.add({
+        topic: 'math',
+        cmd: 'add'
+      }, (args, next) => {
+        next(null, args.a + args.b)
+      })
+
+      server.route({
+        method: 'POST',
+        path: '/foo/{topic}/{cmd}',
+        handler: {
+          test_act: {
+            pattern: {
+              timeout$: 5000
+            }
+          }
+        }
+      })
+
+      server.inject({ method: 'POST', url: '/foo/math/add', payload: { a: 2, b: 2 } }, (res) => {
+        expect(res.statusCode).to.equal(200)
+        expect(res.result).to.equal(4)
+        done()
+      })
+    })
+  })
+})

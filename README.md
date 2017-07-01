@@ -44,7 +44,7 @@ server.register({
           cmd: 'add',
           timeout$: 5000,
         }
-        // Optional caching parameters 
+        // Optional caching parameters
         cache: {
           expiresIn: 60000,
           staleIn: 30000,
@@ -53,6 +53,8 @@ server.register({
         }
       }
     }
+    // customize hapi decorations {prefix}_{action}
+    // decoratePrefix: 'testPrefix'
   }
 })
 ```
@@ -93,9 +95,9 @@ server.route({
   handler: function (request, reply) {
 
     server.methods.add({ a: 1, b: 2 }, (err, resp) => {
-      
+
       reply(err || result)
-    }) 
+    })
   }
 }
 ```
@@ -120,9 +122,9 @@ server.action('generate', 'topic:generator,cmd:id', {
 server.methods.generate((err, result) => {})
 ```
 
-## Use server handlers 
+## Use server handlers
 
-Use body 
+Use body
 ```js
 server.route({
   method: 'POST',
@@ -141,7 +143,7 @@ server.route({
  curl -H "Content-Type: application/json" -X POST -d '{"a":2,"b":2}' http://localhost:3000/foo/math/add
 ```
 
-use query parameters 
+use query parameters
 ```js
 server.route({
   method: 'POST',
@@ -195,9 +197,9 @@ server.register({
 hemera.act({ a: 1 })
 
 // Results in following pattern
- 
+
  { a: 1, trace$: { traceId: 123 } }
- 
+
 
 ```
 
@@ -214,4 +216,42 @@ basePattern: function(request) {
     }
   }
 }
+```
+
+## Customize hapi decorations
+
+```js
+server.route({
+  method: 'POST',
+  path: '/math/{cmd}',
+  config: {
+    validate: {
+      query: {
+        a: Joi.number().required(),
+        b: Joi.number().required()
+      }
+    }
+  },
+  handler: {
+    testPrefix_act: {
+      pattern: {
+        topic: 'math',
+        timeout$: 5000
+      }
+    }
+  }
+})
+```
+
+or
+
+```js
+server.route({
+  method: 'POST',
+  path: '/add',
+  handler: function (request, reply) {
+
+    return reply.testPrefix_act({ topic: 'math', cmd: 'add', a: 2, b: 2 })
+  }
+});
 ```

@@ -135,4 +135,61 @@ describe('Basic', function () {
       })
     })
   })
+
+  it('Returns act result when prefixed', (done) => {
+    const server = new Hapi.Server()
+    server.connection()
+    server.register({
+      register: HapiHemera,
+      options: {
+        hemera: {},
+        nats: {
+          url: noAuthUrl
+        },
+        decoratePrefix: 'test'
+      }
+    }, (err) => {
+      expect(err).to.not.exist()
+
+      let id = 0
+      server.hemera.add({
+        topic: 'generator',
+        cmd: 'id'
+      }, (message, next) => {
+        if (++id === 1) {
+          return next(null, {
+            id: 1
+          })
+        }
+
+        return next(new Error('failed'))
+      })
+
+      const handler = function (request, reply) {
+        return reply.test_act({
+          topic: 'generator',
+          cmd: 'id'
+        })
+      }
+
+      server.route({
+        method: 'GET',
+        path: '/',
+        handler
+      })
+
+      server.inject('/', (res) => {
+        expect(res.statusCode).to.equal(200)
+        expect(res.result).to.equal({
+          id: 1
+        })
+
+        server.inject('/', (res2) => {
+          expect(res2.statusCode).to.equal(500)
+          server.hemera.close()
+          done()
+        })
+      })
+    })
+  })
 })
