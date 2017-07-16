@@ -168,6 +168,23 @@ server.route({
  curl http://localhost:3000/foo/math/add?a=2&b=2
 ```
 
+## Migrate from Hemera to Seneca
+
+You can use the prefix options to avoid collision with existing decorators in Hapi.
+
+```js
+options: {
+  prefix: 'hemera'
+}
+
+// Results in
+
+reply.hemeraAct = Reply decorator
+server.hemeraAction = Server decorator
+hemeraAct = Custom Handler
+
+```
+
 ## Enrich pattern with contextual data
 
 ```js
