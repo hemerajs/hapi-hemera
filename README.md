@@ -168,7 +168,7 @@ server.route({
  curl http://localhost:3000/foo/math/add?a=2&b=2
 ```
 
-## Migrate from Hemera to Seneca
+## Migrate from Seneca to Hemera
 
 You can use the prefix options to avoid collision with existing decorators in Hapi.
 
