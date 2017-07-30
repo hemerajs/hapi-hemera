@@ -57,7 +57,7 @@ describe('Handlers', function () {
       server.inject({ method: 'POST', url: '/foo/math/add', payload: { a: 2, b: 2 } }, (res) => {
         expect(res.statusCode).to.equal(200)
         expect(res.result).to.equal(4)
-        done()
+        server.stop(done)
       })
     })
   })
@@ -105,7 +105,7 @@ describe('Handlers', function () {
       server.inject({ method: 'POST', url: '/math/add?a=2&b=2' }, (res) => {
         expect(res.statusCode).to.equal(200)
         expect(res.result).to.equal(4)
-        done()
+        server.stop(done)
       })
     })
   })

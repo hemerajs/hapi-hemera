@@ -50,7 +50,7 @@ describe('Register', function () {
       }, (err, resp) => {
         expect(err).to.not.exist()
         expect(resp).to.exist()
-        done()
+        server.stop(done)
       })
     })
   })

@@ -60,8 +60,7 @@ describe('Action Mapping', function () {
           expect(result2).to.equal({
             id: 2
           })
-          server.hemera.close()
-          done()
+          server.stop(done)
         })
       })
     })
@@ -101,8 +100,7 @@ describe('Action Mapping', function () {
         expect(result).to.equal({
           id: 1
         })
-        server.hemera.close()
-        done()
+        server.stop(done)
       })
     })
   })
@@ -150,8 +148,7 @@ describe('Action Mapping', function () {
             expect(result2).to.equal({
               id: 1
             })
-            server.hemera.close()
-            done()
+            server.stop(done)
           })
         })
       })

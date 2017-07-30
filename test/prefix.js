@@ -61,8 +61,7 @@ describe('Prefix', function () {
           expect(result2).to.equal({
             id: 2
           })
-          server.hemera.close()
-          done()
+          server.stop(done)
         })
       })
     })
@@ -118,8 +117,7 @@ describe('Prefix', function () {
 
         server.inject('/', (res2) => {
           expect(res2.statusCode).to.equal(500)
-          server.hemera.close()
-          done()
+          server.stop(done)
         })
       })
     })
@@ -160,7 +158,7 @@ describe('Prefix', function () {
       server.inject({ method: 'POST', url: '/foo/math/add', payload: { a: 2, b: 2 } }, (res) => {
         expect(res.statusCode).to.equal(200)
         expect(res.result).to.equal(4)
-        done()
+        server.stop(done)
       })
     })
   })

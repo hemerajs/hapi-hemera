@@ -41,7 +41,7 @@ describe('Hemera plugin registration', function () {
       expect(err).to.not.exist()
       expect(server.hemera).to.exist()
       expect(server.hemera.plugins.myPlugin.options).to.be.equals({ a: 1 })
-      done()
+      server.stop(done)
     })
   })
 
@@ -66,7 +66,7 @@ describe('Hemera plugin registration', function () {
       expect(err).to.not.exist()
       expect(server.hemera).to.exist()
       expect(server.hemera.plugins.myPlugin.options).to.be.equals({ a: 1 })
-      done()
+      server.stop(done)
     })
   })
 })

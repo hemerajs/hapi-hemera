@@ -63,7 +63,7 @@ describe('Request decorator', function () {
       server.inject({ method: 'GET', url: '/api/add' }, (res) => {
         expect(res.statusCode).to.equal(200)
         expect(res.result).to.equal({ result: 3 })
-        done()
+        server.stop(done)
       })
     })
   })
@@ -105,7 +105,7 @@ describe('Request decorator', function () {
       server.inject({ method: 'GET', url: '/api/add' }, (res) => {
         expect(res.statusCode).to.equal(200)
         expect(res.result).to.equal({ result: 3 })
-        done()
+        server.stop(done)
       })
     })
   })
@@ -150,7 +150,7 @@ describe('Request decorator', function () {
       server.inject({ method: 'GET', url: '/api/add' }, (res) => {
         expect(res.statusCode).to.equal(200)
         expect(res.result).to.equal({ result: 3 })
-        done()
+        server.stop(done)
       })
     })
   })

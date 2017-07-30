@@ -37,8 +37,7 @@ describe('Basic', function () {
       }
     }, (err) => {
       expect(err).to.not.exist()
-      server.hemera.close()
-      done()
+      server.stop(done)
     })
   })
 
@@ -74,8 +73,7 @@ describe('Basic', function () {
         expect(result).to.equal({
           id: 1
         })
-        server.hemera.close()
-        done()
+        server.stop(done)
       })
     })
   })
@@ -129,8 +127,7 @@ describe('Basic', function () {
 
         server.inject('/', (res2) => {
           expect(res2.statusCode).to.equal(500)
-          server.hemera.close()
-          done()
+          server.stop(done)
         })
       })
     })
