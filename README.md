@@ -4,8 +4,6 @@
 [![npm](https://img.shields.io/npm/v/hapi-hemera.svg?maxAge=3600)](https://www.npmjs.com/package/hapi-hemera)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 
-- __Status:__ In development
-
 **hapi-hemera** is a [**Hemera**](https://github.com/hemerajs/hemera) micro-services plugin
 for [hapi](https://github.com/hapijs/hapi). The plugin integrates the **Hemera** functionality into
 **hapi** and provide tools to map its actions to server methods and views for easy access.
