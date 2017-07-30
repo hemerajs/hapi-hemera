@@ -1,8 +1,8 @@
 # hapi-hemera
 [![Build Status](https://travis-ci.org/hemerajs/hapi-hemera.svg?branch=master)](https://travis-ci.org/hemerajs/hapi-hemera)
 [![NPM Downloads](https://img.shields.io/npm/dt/hapi-hemera.svg?style=flat)](https://www.npmjs.com/package/hapi-hemera)
-
-[![js-standard-style](https://raw.githubusercontent.com/feross/standard/master/badge.png)](https://github.com/feross/standard)
+[![npm](https://img.shields.io/npm/v/hapi-hemera.svg?maxAge=3600)](https://www.npmjs.com/package/hapi-hemera)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 
 - __Status:__ In development
 
