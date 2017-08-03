@@ -185,7 +185,7 @@ hemeraAct = Custom Handler
 
 ## Gracefully shutdown
 
-We hook into Hapi `onPostStop` event to graefully shutdown hemera.
+We hook into Hapi `onPostStop` event to gracefully shutdown hemera.
 
 ## Enrich pattern with contextual data
 
