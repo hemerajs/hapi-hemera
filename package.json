@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "joi": "11.1.x",
-    "catbox-memory": "3.0.x",
+    "catbox-memory": "2.0.x",
     "code": "4.0.x",
     "coveralls": "3.0.x",
     "docco": "0.7.x",
