@@ -1,7 +1,7 @@
 {
   "name": "hapi-hemera",
   "description": "Hemera micro-services plugin for hapi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": "git://github.com/hemerajs/hapi-hemera",
   "main": "lib/index.js",
   "autor": "Russlan Akiev (http://github.com/aruss)",
