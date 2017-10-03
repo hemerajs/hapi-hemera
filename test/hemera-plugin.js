@@ -30,22 +30,19 @@ describe('Hemera plugin registration', function () {
       options: {
         nats: 'nats://localhost:6242',
         plugins: [{
-          plugin: function plugin (options, next) { next() },
-          attributes: {
-            name: 'myPlugin'
-          },
-          options: { a: 1 }
+          plugin: function plugin (hemera, opts, done) { done() },
+          options: { name: 'myPlugin', a: 1 }
         }]
       }
     }, (err) => {
       expect(err).to.not.exist()
       expect(server.hemera).to.exist()
-      expect(server.hemera.plugins.myPlugin.options).to.be.equals({ a: 1 })
+      expect(server.hemera.plugins.myPlugin.plugin$.options).to.be.equals({ name: 'myPlugin', a: 1 })
       server.stop(done)
     })
   })
 
-  it('Should be able to register a plugin with configuration approach', (done) => {
+  it('Should be able to register a plugin and pass configuration as second argument', (done) => {
     const server = new Hapi.Server()
     server.connection()
     server.register({
@@ -54,18 +51,15 @@ describe('Hemera plugin registration', function () {
         nats: 'nats://localhost:6242',
         plugins: [{
           register: {
-            plugin: function plugin (options, next) { next() },
-            attributes: {
-              name: 'myPlugin'
-            }
+            plugin: function plugin (hemera, opts, done) { done() },
           },
-          options: { a: 1 }
+          options: {  name: 'myPlugin', a: 1 }
         }]
       }
     }, (err) => {
       expect(err).to.not.exist()
       expect(server.hemera).to.exist()
-      expect(server.hemera.plugins.myPlugin.options).to.be.equals({ a: 1 })
+      expect(server.hemera.plugins.myPlugin.plugin$.options).to.be.equals({ name: 'myPlugin', a: 1 })
       server.stop(done)
     })
   })
