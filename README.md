@@ -8,8 +8,6 @@
 for [Hapi](https://github.com/hapijs/hapi) **17+**. The plugin integrates the **Hemera** functionality into
 **hapi**.
 
-### Usage
-
 ## Plugin Registration
 
 ```js
