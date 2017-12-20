@@ -62,6 +62,15 @@ server.route({
 }
 ```
 
+## Server methods
+```js
+server.action('generate', {
+  topic: 'generator',
+  cmd: 'id'
+})
+const result = await server.methods.generate()
+```
+
 ## Use handler decorator and accept `params`, `query` and `payload` as pattern
 ```js
 server.route({

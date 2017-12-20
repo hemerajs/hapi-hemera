@@ -94,44 +94,4 @@ describe('Action Mapping', function() {
 
     await server.stop()
   })
-
-  it('Maps an action to a server method (cached)', async () => {
-    const server = new Hapi.Server()
-    await server.register({
-      plugin: HapiHemera,
-      options: {
-        nats: {
-          url: noAuthUrl
-        }
-      }
-    })
-
-    let id = 0
-    server.hemera.add(
-      {
-        topic: 'generator',
-        cmd: 'id'
-      },
-      (message, next) => {
-        return next(null, {
-          id: ++id
-        })
-      }
-    )
-
-    server.action('generate', 'topic:generator,cmd:id', {
-      cache: {
-        expiresIn: 1000,
-        generateTimeout: 3000
-      }
-    })
-
-    const result = await server.methods.generate()
-
-    expect(result).to.equal({
-      id: 1
-    })
-
-    await server.stop()
-  })
 })
