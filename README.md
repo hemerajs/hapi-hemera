@@ -12,8 +12,7 @@ for [Hapi](https://github.com/hapijs/hapi) **17+**. The plugin integrates the **
 
 ```js
 const server = new Hapi.Server()
-server.connection()
-server.register({
+await server.register({
   register: require('hapi-hemera'),
   options: {
     hemera:{
