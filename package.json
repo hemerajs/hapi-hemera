@@ -1,10 +1,10 @@
 {
   "name": "hapi-hemera",
-  "description": "Hemera micro-services plugin for hapi",
+  "description": "Hemera micro-services plugin for Hapi",
   "version": "1.0.1",
   "repository": "git://github.com/hemerajs/hapi-hemera",
   "main": "lib/index.js",
-  "autor": "Russlan Akiev (http://github.com/aruss)",
+  "author": "Dustin Deus (https://github.com/StarpTech)",
   "keywords": [
     "hapi",
     "plugin",
@@ -28,7 +28,6 @@
     "catbox-memory": "^3.1.1",
     "code": "^5.1.2",
     "coveralls": "^3.0.0",
-    "docco": "^0.8.0",
     "eslint": "^4.9.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-config-standard": "^10.2.1",
@@ -44,15 +43,15 @@
     "joi": "^13.0.2",
     "mocha": "^4.0.1",
     "mocha-lcov-reporter": "^1.3.0",
+    "np": "^2.18.3",
     "prettier": "^1.9.2",
     "sinon": "4.1.3"
   },
   "scripts": {
-    "annotate": "docco lib/index.js -o docs/",
     "test": "mocha --exit -t 5000 --recursive",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec -t 5000 --recursive",
     "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report text-lcov -- -R spec | node ./node_modules/coveralls/bin/coveralls.js",
-    "lint": "eslint --ext .js lib test examples benchmark",
+    "lint": "eslint --ext .js lib test",
     "patch": "np patch --yolo",
     "minor": "np minor --yolo",
     "major": "np major --yolo"
