@@ -7,151 +7,131 @@ const HemeraTestsuite = require('hemera-testsuite')
 
 const expect = Code.expect
 
-describe('Action Mapping', function () {
+describe('Action Mapping', function() {
   const PORT = 6242
   const noAuthUrl = 'nats://localhost:' + PORT
-  const flags = []
   let natsServer
 
   // Start up our own nats-server
-  before(function (done) {
-    natsServer = HemeraTestsuite.start_server(PORT, flags, done)
+  before(function(done) {
+    natsServer = HemeraTestsuite.start_server(PORT, done)
   })
 
   // Shutdown our server after we are done
-  after(function () {
+  after(function() {
     natsServer.kill()
   })
 
-  it('Maps an action to a server method', (done) => {
+  it('Maps an action to a server method', async () => {
     const server = new Hapi.Server()
-    server.connection()
-    server.register({
-      register: HapiHemera,
+    await server.register({
+      plugin: HapiHemera,
       options: {
-        hemera: {},
         nats: {
           url: noAuthUrl
         }
       }
-    }, (err) => {
-      expect(err).to.not.exist()
+    })
 
-      let id = 0
-      server.hemera.add({
+    let id = 0
+    server.hemera.add(
+      {
         topic: 'generator',
         cmd: 'id'
-      }, (message, next) => {
+      },
+      (message, next) => {
         return next(null, {
           id: ++id
         })
-      })
+      }
+    )
 
-      server.action('generate', 'topic:generator,cmd:id')
+    server.action('generate', 'topic:generator,cmd:id')
 
-      server.methods.generate((err, result) => {
-        expect(err).to.not.exist()
-        expect(result).to.equal({
-          id: 1
-        })
+    const result = await server.methods.generate()
 
-        server.methods.generate((err, result2) => {
-          expect(err).to.not.exist()
-          expect(result2).to.equal({
-            id: 2
-          })
-          server.stop(done)
-        })
-      })
+    expect(result).to.equal({
+      id: 1
     })
+
+    await server.stop()
   })
 
-  it('Maps an action to a server method (object pattern)', (done) => {
+  it('Maps an action to a server method (object pattern)', async () => {
     const server = new Hapi.Server()
-    server.connection()
-    server.register({
-      register: HapiHemera,
+    await server.register({
+      plugin: HapiHemera,
       options: {
-        hemera: {},
         nats: {
           url: noAuthUrl
         }
       }
-    }, (err) => {
-      expect(err).to.not.exist()
+    })
 
-      let id = 0
-      server.hemera.add({
+    let id = 0
+    server.hemera.add(
+      {
         topic: 'generator',
         cmd: 'id'
-      }, (message, next) => {
+      },
+      (message, next) => {
         return next(null, {
           id: ++id
         })
-      })
+      }
+    )
 
-      server.action('generate', {
-        topic: 'generator',
-        cmd: 'id'
-      })
-
-      server.methods.generate((err, result) => {
-        expect(err).to.not.exist()
-        expect(result).to.equal({
-          id: 1
-        })
-        server.stop(done)
-      })
+    server.action('generate', {
+      topic: 'generator',
+      cmd: 'id'
     })
+
+    const result = await server.methods.generate()
+
+    expect(result).to.equal({
+      id: 1
+    })
+
+    await server.stop()
   })
 
-  it('Maps an action to a server method (cached)', (done) => {
+  it('Maps an action to a server method (cached)', async () => {
     const server = new Hapi.Server()
-    server.connection()
-    server.register({
-      register: HapiHemera,
+    await server.register({
+      plugin: HapiHemera,
       options: {
-        hemera: {},
         nats: {
           url: noAuthUrl
         }
       }
-    }, (err) => {
-      expect(err).to.not.exist()
+    })
 
-      let id = 0
-      server.hemera.add({
+    let id = 0
+    server.hemera.add(
+      {
         topic: 'generator',
         cmd: 'id'
-      }, (message, next) => {
+      },
+      (message, next) => {
         return next(null, {
           id: ++id
         })
-      })
+      }
+    )
 
-      server.action('generate', 'topic:generator,cmd:id', {
-        cache: {
-          expiresIn: 1000,
-          generateTimeout: 3000
-        }
-      })
-
-      server.start(() => {
-        server.methods.generate((err, result1) => {
-          expect(err).to.not.exist()
-          expect(result1).to.equal({
-            id: 1
-          })
-
-          server.methods.generate((err, result2) => {
-            expect(err).to.not.exist()
-            expect(result2).to.equal({
-              id: 1
-            })
-            server.stop(done)
-          })
-        })
-      })
+    server.action('generate', 'topic:generator,cmd:id', {
+      cache: {
+        expiresIn: 1000,
+        generateTimeout: 3000
+      }
     })
+
+    const result = await server.methods.generate()
+
+    expect(result).to.equal({
+      id: 1
+    })
+
+    await server.stop()
   })
 })

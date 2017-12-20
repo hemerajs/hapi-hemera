@@ -7,14 +7,15 @@ const HemeraTestsuite = require('hemera-testsuite')
 
 const expect = Code.expect
 
-describe('Base Pattern', function() {
+describe('Handler decorator', function() {
   const PORT = 6242
   const noAuthUrl = 'nats://localhost:' + PORT
+  const flags = []
   let natsServer
 
   // Start up our own nats-server
   before(function(done) {
-    natsServer = HemeraTestsuite.start_server(PORT, done)
+    natsServer = HemeraTestsuite.start_server(PORT, flags, done)
   })
 
   // Shutdown our server after we are done
@@ -22,84 +23,11 @@ describe('Base Pattern', function() {
     natsServer.kill()
   })
 
-  it('Should be able to create base pattern with function', async () => {
+  it('Should be able to use handler decorators with query', async () => {
     const server = new Hapi.Server()
     await server.register({
       plugin: HapiHemera,
       options: {
-        hemera: {
-        },
-        basePattern: function(request) {
-          const basePattern = {
-            a: 1
-          }
-          return basePattern
-        },
-        nats: {
-          url: noAuthUrl
-        }
-      }
-    })
-
-    server.route({
-      method: 'GET',
-      path: '/api/add',
-      handler: function(request, h) {
-        return request.hemera.pattern({ b: 2 })
-      }
-    })
-
-    const resp = await server.inject({ method: 'GET', url: '/api/add' })
-
-    expect(resp.statusCode).to.equal(200)
-    expect(resp.result).to.equal({ a: 1, b: 2 })
-
-    await server.stop()
-  })
-
-  it('Should be able to create base pattern with object', async () => {
-    const server = new Hapi.Server()
-    await server.register({
-      plugin: HapiHemera,
-      options: {
-        hemera: {},
-        basePattern: {
-          a: 1
-        },
-        nats: {
-          url: noAuthUrl
-        }
-      }
-    })
-
-    server.route({
-      method: 'GET',
-      path: '/api/add',
-      handler: function(request, h) {
-        return request.hemera.pattern({ b: 2 })
-      }
-    })
-
-    const resp = await server.inject({ method: 'GET', url: '/api/add' })
-
-    expect(resp.statusCode).to.equal(200)
-    expect(resp.result).to.equal({ a: 1, b: 2 })
-
-    await server.stop()
-  })
-
-  it('Should include base pattern when we act', async () => {
-    const server = new Hapi.Server()
-    await server.register({
-      plugin: HapiHemera,
-      options: {
-        hemera: {
-          logLevel: 'info'
-        },
-        basePattern: {
-          a: 1,
-          b: 2
-        },
         nats: {
           url: noAuthUrl
         }
@@ -111,22 +39,113 @@ describe('Base Pattern', function() {
         topic: 'math',
         cmd: 'add'
       },
-      async req => req.a + req.b
+      async req => parseInt(req.a) + parseInt(req.b)
     )
 
     server.route({
       method: 'GET',
       path: '/api/add',
-      handler: function(request, h) {
-        return request.hemera
-          .act({
+      handler: {
+        hemera: {
+          pattern: {
             topic: 'math',
             cmd: 'add'
-          })
+          }
+        }
       }
     })
 
-    const resp = await server.inject({ method: 'GET', url: '/api/add' })
+    const resp = await server.inject({
+      method: 'GET',
+      url: '/api/add?a=1&b=2'
+    })
+
+    expect(resp.statusCode).to.equal(200)
+    expect(resp.result).to.equal(3)
+
+    await server.stop()
+  })
+
+  it('Should be able to use handler decorators with payload', async () => {
+    const server = new Hapi.Server()
+    await server.register({
+      plugin: HapiHemera,
+      options: {
+        nats: {
+          url: noAuthUrl
+        }
+      }
+    })
+
+    server.hemera.add(
+      {
+        topic: 'math',
+        cmd: 'add'
+      },
+      async req => parseInt(req.a) + parseInt(req.b)
+    )
+
+    server.route({
+      method: 'POST',
+      path: '/api/add',
+      handler: {
+        hemera: {
+          pattern: {
+            topic: 'math',
+            cmd: 'add'
+          }
+        }
+      }
+    })
+
+    const resp = await server.inject({
+      method: 'POST',
+      url: '/api/add',
+      payload: { a: 1, b: 2 }
+    })
+
+    expect(resp.statusCode).to.equal(200)
+    expect(resp.result).to.equal(3)
+
+    await server.stop()
+  })
+
+  it('Should be able to use handler decorators with params', async () => {
+    const server = new Hapi.Server()
+    await server.register({
+      plugin: HapiHemera,
+      options: {
+        nats: {
+          url: noAuthUrl
+        }
+      }
+    })
+
+    server.hemera.add(
+      {
+        topic: 'math',
+        cmd: 'add'
+      },
+      async req => parseInt(req.a) + parseInt(req.b)
+    )
+
+    server.route({
+      method: 'GET',
+      path: '/api/add/{a}/{b}',
+      handler: {
+        hemera: {
+          pattern: {
+            topic: 'math',
+            cmd: 'add'
+          }
+        }
+      }
+    })
+
+    const resp = await server.inject({
+      method: 'GET',
+      url: '/api/add/1/2'
+    })
 
     expect(resp.statusCode).to.equal(200)
     expect(resp.result).to.equal(3)

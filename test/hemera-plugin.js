@@ -9,12 +9,14 @@ const expect = Code.expect
 
 process.setMaxListeners(0)
 
-describe('Hemera plugin registration', function () {
+describe('Hemera plugin registration', function() {
+  const PORT = 6242
+  const noAuthUrl = 'nats://localhost:' + PORT
   let natsServer
 
   // Start up our own nats-server
-  before((done) => {
-    natsServer = HemeraTestsuite.start_server(6242, [], done)
+  before(done => {
+    natsServer = HemeraTestsuite.start_server(PORT, done)
   })
 
   // Shutdown our server after we are done
@@ -22,45 +24,31 @@ describe('Hemera plugin registration', function () {
     natsServer.kill()
   })
 
-  it('Should be able to register a plugin', (done) => {
+  it('Should be able to register a plugin', async () => {
     const server = new Hapi.Server()
-    server.connection()
-    server.register({
-      register: HapiHemera,
-      options: {
-        nats: 'nats://localhost:6242',
-        plugins: [{
-          plugin: function plugin (hemera, opts, done) { done() },
-          options: { name: 'myPlugin', a: 1 }
-        }]
-      }
-    }, (err) => {
-      expect(err).to.not.exist()
-      expect(server.hemera).to.exist()
-      expect(server.hemera.plugins.myPlugin.plugin$.options).to.be.equals({ name: 'myPlugin', a: 1 })
-      server.stop(done)
-    })
-  })
 
-  it('Should be able to register a plugin and pass configuration as second argument', (done) => {
-    const server = new Hapi.Server()
-    server.connection()
-    server.register({
-      register: HapiHemera,
+    const myPlugin = async function myPlugin(hemera, options) {}
+
+    myPlugin[Symbol.for('dependencies')] = []
+    myPlugin[Symbol.for('name')] = 'myPlugin'
+    myPlugin[Symbol.for('options')] = { a: 1 }
+
+    const plugins = [myPlugin]
+
+    await server.register({
+      plugin: HapiHemera,
       options: {
-        nats: 'nats://localhost:6242',
-        plugins: [{
-          register: {
-            plugin: function plugin (hemera, opts, done) { done() },
-          },
-          options: {  name: 'myPlugin', a: 1 }
-        }]
+        plugins: [myPlugin],
+        nats: {
+          url: noAuthUrl
+        }
       }
-    }, (err) => {
-      expect(err).to.not.exist()
-      expect(server.hemera).to.exist()
-      expect(server.hemera.plugins.myPlugin.plugin$.options).to.be.equals({ name: 'myPlugin', a: 1 })
-      server.stop(done)
     })
+    expect(server.hemera).to.exist()
+    expect(server.hemera.plugins.myPlugin.plugin$.options).to.be.equals({
+      a: 1
+    })
+
+    await server.stop()
   })
 })

@@ -12,38 +12,44 @@
     "hemera"
   ],
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=8.9.0"
   },
   "dependencies": {
-    "boom": "5.1.x",
-    "hoek": "4.1.x",
+    "boom": "7.1.x",
+    "hoek": "5.0.x",
     "nats": "0.7.x",
-    "nats-hemera": "^2.0.0",
+    "nats-hemera": "3.0.x",
     "tinysonic": "1.3.x"
   },
   "peerDependencies": {
-    "hapi": ">=11.x.x"
+    "hapi": ">=17.2.0"
   },
   "devDependencies": {
-    "joi": "11.1.x",
-    "catbox-memory": "2.0.x",
-    "code": "4.0.x",
-    "coveralls": "3.0.x",
-    "docco": "0.7.x",
-    "eslint": "4.8.x",
-    "hapi": "16.6.x",
-    "hemera-testsuite": "1.4.x",
-    "istanbul": "0.4.x",
-    "mocha": "4.0.x",
-    "mocha-lcov-reporter": "1.3.x",
-    "sinon": "4.0.x",
+    "catbox-memory": "^3.1.1",
+    "code": "^5.1.2",
+    "coveralls": "^3.0.0",
+    "docco": "^0.8.0",
+    "eslint": "^4.9.0",
+    "eslint-config-prettier": "^2.9.0",
     "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^3.0.1"
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-mocha": "^4.11.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-prettier": "^2.4.0",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "hapi": "^17.2.0",
+    "hemera-testsuite": "^1.4.1",
+    "istanbul": "^0.4.5",
+    "joi": "^13.0.2",
+    "mocha": "^4.0.1",
+    "mocha-lcov-reporter": "^1.3.0",
+    "prettier": "^1.9.2",
+    "sinon": "4.1.3"
   },
   "scripts": {
     "annotate": "docco lib/index.js -o docs/",
-    "test": "mocha -t 5000 --recursive",
+    "test": "mocha --exit -t 5000 --recursive",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec -t 5000 --recursive",
     "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report text-lcov -- -R spec | node ./node_modules/coveralls/bin/coveralls.js",
     "lint": "eslint --ext .js lib test examples benchmark",

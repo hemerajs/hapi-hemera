@@ -7,7 +7,7 @@ const HemeraTestsuite = require('hemera-testsuite')
 
 const expect = Code.expect
 
-describe('Request decorator', function() {
+describe('Toolkit decorator', function() {
   const PORT = 6242
   const noAuthUrl = 'nats://localhost:' + PORT
   const flags = []
@@ -23,18 +23,11 @@ describe('Request decorator', function() {
     natsServer.kill()
   })
 
-  it('Should be able to act with request hemera instance', async () => {
+  it('Should be able to act with toolkit hemera interface', async () => {
     const server = new Hapi.Server()
     await server.register({
       plugin: HapiHemera,
       options: {
-        hemera: {
-          logLevel: 'info'
-        },
-        basePattern: {
-          a: 1,
-          b: 2
-        },
         nats: {
           url: noAuthUrl
         }
@@ -53,9 +46,11 @@ describe('Request decorator', function() {
       method: 'GET',
       path: '/api/add',
       handler: function(request, h) {
-        return request.hemera.act({
+        return h.hemera().act({
           topic: 'math',
-          cmd: 'add'
+          cmd: 'add',
+          a: 1,
+          b: 2
         })
       }
     })

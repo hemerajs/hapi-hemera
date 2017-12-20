@@ -1,19 +1,8 @@
-module.exports = {
-  "env": {
-    "es6": true,
-    "node": true,
-    "mocha": true
-  },
-  "plugins": [],
-  "extends": [
-    "standard"
-  ],
-  "parserOptions": {
-    "sourceType": "module"
-  },
-  // see http://eslint.org/docs/rules/
+{
+  "extends": ["prettier", "standard", "prettier/standard"],
+  "plugins": ["prettier", "standard", "mocha"],
   "rules": {
-    "indent": [ "error", 2 ],
-    "quotes": [ "error", "single" ]
+    "mocha/no-exclusive-tests": "error",
+    "space-before-function-paren": "off"
   }
-};
+}
