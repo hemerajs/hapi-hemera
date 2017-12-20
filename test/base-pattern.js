@@ -27,8 +27,6 @@ describe('Base Pattern', function() {
     await server.register({
       plugin: HapiHemera,
       options: {
-        hemera: {
-        },
         basePattern: function(request) {
           const basePattern = {
             a: 1
@@ -62,7 +60,6 @@ describe('Base Pattern', function() {
     await server.register({
       plugin: HapiHemera,
       options: {
-        hemera: {},
         basePattern: {
           a: 1
         },
@@ -93,9 +90,6 @@ describe('Base Pattern', function() {
     await server.register({
       plugin: HapiHemera,
       options: {
-        hemera: {
-          logLevel: 'info'
-        },
         basePattern: {
           a: 1,
           b: 2

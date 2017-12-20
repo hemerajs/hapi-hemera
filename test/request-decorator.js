@@ -28,9 +28,6 @@ describe('Request decorator', function() {
     await server.register({
       plugin: HapiHemera,
       options: {
-        hemera: {
-          logLevel: 'info'
-        },
         basePattern: {
           a: 1,
           b: 2
