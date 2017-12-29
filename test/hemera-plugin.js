@@ -33,8 +33,6 @@ describe('Hemera plugin registration', function() {
     myPlugin[Symbol.for('name')] = 'myPlugin'
     myPlugin[Symbol.for('options')] = { a: 1 }
 
-    const plugins = [myPlugin]
-
     await server.register({
       plugin: HapiHemera,
       options: {

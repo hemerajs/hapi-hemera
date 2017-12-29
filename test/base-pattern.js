@@ -112,11 +112,10 @@ describe('Base Pattern', function() {
       method: 'GET',
       path: '/api/add',
       handler: function(request, h) {
-        return request.hemera
-          .act({
-            topic: 'math',
-            cmd: 'add'
-          })
+        return request.hemera.act({
+          topic: 'math',
+          cmd: 'add'
+        })
       }
     })
 
