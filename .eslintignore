@@ -1,3 +1,12 @@
-build/*.js
-config/*.js
-node_modules
+!/*.js
+/tests/**/*.js
+!/tests/**/jsfmt.spec.js
+!/**/.eslintrc.js
+/test.js
+/dist/
+**/node_modules/**
+/website/static/lib/
+/tests_integration/cli/
+.nyc_output
+coverage
+test
