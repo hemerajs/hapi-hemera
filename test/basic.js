@@ -57,12 +57,12 @@ describe('Basic', function() {
       }
     )
 
-    const result = await server.hemera.act({
+    const resp = await server.hemera.act({
       topic: 'generator',
       cmd: 'id'
     })
 
-    expect(result).to.equal({
+    expect(resp.data).to.equal({
       id: 1
     })
 
