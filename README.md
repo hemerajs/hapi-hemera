@@ -44,8 +44,12 @@ server.route({
 server.route({
   method: 'POST',
   path: '/add',
-  handler: function (request, h) {
-    return server.hemera.act({ topic: 'math', cmd: 'add', a: 2, b: 2 })
+  handler: async function (request, h) {
+    let resp = server.hemera.act({ topic: 'math', cmd: 'add', a: 2, b: 2 })
+    // access result
+    resp.data
+    // retain parent context
+    resp = resp.context.act(...)
   }
 }
 ```
