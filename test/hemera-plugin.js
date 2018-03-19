@@ -2,12 +2,11 @@
 
 const Hapi = require('hapi')
 const HemeraTestsuite = require('hemera-testsuite')
+const hemeraInternalSymbols = require('nats-hemera/lib/symbols')
 const Code = require('code')
 const HapiHemera = require('../lib')
 
 const expect = Code.expect
-
-process.setMaxListeners(0)
 
 describe('Hemera plugin registration', function() {
   const PORT = 6242
@@ -43,9 +42,9 @@ describe('Hemera plugin registration', function() {
       }
     })
     expect(server.hemera).to.exist()
-    expect(server.hemera.plugins.myPlugin.plugin$.options).to.be.equals({
-      a: 1
-    })
+    expect(server.hemera[hemeraInternalSymbols.registeredPlugins]).to.be.equals(
+      ['myPlugin']
+    )
 
     await server.stop()
   })
