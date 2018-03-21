@@ -4,6 +4,7 @@ const Hapi = require('hapi')
 const HemeraTestsuite = require('hemera-testsuite')
 const hemeraInternalSymbols = require('nats-hemera/lib/symbols')
 const Code = require('code')
+const Hp = require('hemera-plugin')
 const HapiHemera = require('../lib')
 
 const expect = Code.expect
@@ -26,11 +27,10 @@ describe('Hemera plugin registration', function() {
   it('Should be able to register a plugin', async () => {
     const server = new Hapi.Server()
 
-    const myPlugin = async function myPlugin(hemera, options) {}
-
-    myPlugin[Symbol.for('dependencies')] = []
-    myPlugin[Symbol.for('name')] = 'myPlugin'
-    myPlugin[Symbol.for('options')] = { a: 1 }
+    const myPlugin = Hp(async function myPlugin(hemera, options) {}, {
+      name: 'myPlugin',
+      options: { a: 1 }
+    })
 
     await server.register({
       plugin: HapiHemera,
@@ -41,6 +41,37 @@ describe('Hemera plugin registration', function() {
         }
       }
     })
+    expect(server.hemera).to.exist()
+    expect(server.hemera[hemeraInternalSymbols.registeredPlugins]).to.be.equals(
+      ['myPlugin']
+    )
+
+    await server.stop()
+  })
+
+  it('Should be able to register a plugin with options', async () => {
+    const server = new Hapi.Server()
+
+    const myPlugin = Hp(
+      async function myPlugin(hemera, options) {
+        expect(options).to.be.equals({ a: 1, b: 2 })
+      },
+      {
+        name: 'myPlugin',
+        options: { a: 1 }
+      }
+    )
+
+    await server.register({
+      plugin: HapiHemera,
+      options: {
+        plugins: [{ register: myPlugin, options: { b: 2 } }],
+        nats: {
+          url: noAuthUrl
+        }
+      }
+    })
+
     expect(server.hemera).to.exist()
     expect(server.hemera[hemeraInternalSymbols.registeredPlugins]).to.be.equals(
       ['myPlugin']

@@ -30,6 +30,7 @@
     "eslint": "^4.19.0",
     "eslint-config-hemera": "^0.0.2",
     "hapi": "^17.2.3",
+    "hemera-plugin": "^1.1.1",
     "hemera-testsuite": "^4.0.0",
     "istanbul": "^0.4.5",
     "joi": "^13.1.2",
