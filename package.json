@@ -1,7 +1,7 @@
 {
   "name": "hapi-hemera",
   "description": "Hemera micro-services plugin for Hapi",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "repository": "git://github.com/hemerajs/hapi-hemera",
   "main": "lib/index.js",
   "author": "Dustin Deus (https://github.com/StarpTech)",
