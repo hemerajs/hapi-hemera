@@ -9,7 +9,7 @@ const HemeraTestsuite = require('hemera-testsuite')
 
 const expect = Code.expect
 
-describe('Injection', function() {
+describe('Custom Hemera instance', function() {
   const PORT = 6242
   const noAuthUrl = 'nats://localhost:' + PORT
   let natsServer
@@ -26,11 +26,11 @@ describe('Injection', function() {
 
   it('Connect to NATS', async () => {
     const server = new Hapi.Server()
-    const hemera = new Hemera(Nats.connect({ url: noAuthUrl }))
+    const hemeraInstance = new Hemera(Nats.connect({ url: noAuthUrl }))
     await server.register({
       plugin: HapiHemera,
       options: {
-        hemera: hemera,
+        hemeraInstance: hemeraInstance
       }
     })
     await server.stop()
@@ -38,11 +38,11 @@ describe('Injection', function() {
 
   it('Add / Act', async () => {
     const server = new Hapi.Server()
-    const hemera = new Hemera(Nats.connect({ url: noAuthUrl }))
+    const hemeraInstance = new Hemera(Nats.connect({ url: noAuthUrl }))
     await server.register({
       plugin: HapiHemera,
       options: {
-        hemera: hemera,
+        hemeraInstance: hemeraInstance
       }
     })
 
