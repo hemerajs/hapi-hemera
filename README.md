@@ -1,4 +1,5 @@
 # hapi-hemera
+
 [![Build Status](https://travis-ci.org/hemerajs/hapi-hemera.svg?branch=master)](https://travis-ci.org/hemerajs/hapi-hemera)
 [![NPM Downloads](https://img.shields.io/npm/dt/hapi-hemera.svg?style=flat)](https://www.npmjs.com/package/hapi-hemera)
 [![npm](https://img.shields.io/npm/v/hapi-hemera.svg?maxAge=3600)](https://www.npmjs.com/package/hapi-hemera)
@@ -13,35 +14,35 @@ for [Hapi](https://github.com/hapijs/hapi) **17+**. The plugin integrates the **
 ```js
 const server = new Hapi.Server()
 await server.register({
-  register: require('hapi-hemera'),
+  plugin: require('hapi-hemera'),
   options: {
-    hemera:{
+    hemera: {
       name: 'test',
       logLevel: 'info'
     },
     nats: 'nats://localhost:4242',
     // If you want to add hemera plugins
-    plugins: [
-      require('hemera-joi')
-    ]
+    plugins: [require('hemera-joi')]
   }
 })
 ```
 
 ## Plugin registration with a custom Hemera instance
+
 ```js
 const server = new Hapi.Server()
 const hemeraInstance = new Hemera()
 await server.register({
-  register: require('hapi-hemera'),
+  plugin: require('hapi-hemera'),
   options: {
     hemeraInstance: hemeraInstance,
-    nats: 'nats://localhost:4242',
+    nats: 'nats://localhost:4242'
   }
 })
 ```
 
 ## Use toolkit decorator
+
 ```js
 server.route({
   method: 'POST',
@@ -53,6 +54,7 @@ server.route({
 ```
 
 ## Use server decorator
+
 ```js
 server.route({
   method: 'POST',
@@ -68,6 +70,7 @@ server.route({
 ```
 
 ## Use request decorator
+
 ```js
 server.route({
   method: 'POST',
@@ -79,6 +82,7 @@ server.route({
 ```
 
 ## Server methods
+
 ```js
 server.action('generate', {
   topic: 'generator',
@@ -88,6 +92,7 @@ const result = await server.methods.generate()
 ```
 
 ## Use handler decorator and accept `params`, `query` and `payload` as pattern
+
 ```js
 server.route({
   method: 'GET',
@@ -111,7 +116,7 @@ We hook into Hapi `onPostStop` event to gracefully shutdown hemera.
 
 ```js
 server.register({
-    register: HapiHemera,
+    plugin: HapiHemera,
     options: {
       basePattern: function (request) {
         return {
