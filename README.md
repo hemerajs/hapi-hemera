@@ -28,6 +28,19 @@ await server.register({
 })
 ```
 
+## Plugin registration with a custom Hemera instance
+```js
+const server = new Hapi.Server()
+const hemeraInstance = new Hemera()
+await server.register({
+  register: require('hapi-hemera'),
+  options: {
+    hemeraInstance: hemeraInstance,
+    nats: 'nats://localhost:4242',
+  }
+})
+```
+
 ## Use toolkit decorator
 ```js
 server.route({
