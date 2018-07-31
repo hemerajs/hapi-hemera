@@ -30,7 +30,7 @@ describe('Custom Hemera instance', function() {
     await server.register({
       plugin: HapiHemera,
       options: {
-        hemeraInstance: hemeraInstance
+        hemeraInstance
       }
     })
     await server.stop()
@@ -42,7 +42,7 @@ describe('Custom Hemera instance', function() {
     await server.register({
       plugin: HapiHemera,
       options: {
-        hemeraInstance: hemeraInstance
+        hemeraInstance
       }
     })
 
