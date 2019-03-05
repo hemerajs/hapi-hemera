@@ -47,9 +47,7 @@ describe('Hemera plugin registration', function() {
       }
     })
     expect(server.hemera).to.exist()
-    expect(
-      server.hemera[hemeraInternalSymbols.sRegisteredPlugins]
-    ).to.be.equals(['myPlugin'])
+    expect(server.hemera[hemeraInternalSymbols.sRegisteredPlugins]).to.be.equals(['myPlugin'])
 
     await server.stop()
   })
@@ -78,9 +76,7 @@ describe('Hemera plugin registration', function() {
     })
 
     expect(server.hemera).to.exist()
-    expect(
-      server.hemera[hemeraInternalSymbols.sRegisteredPlugins]
-    ).to.be.equals(['myPlugin'])
+    expect(server.hemera[hemeraInternalSymbols.sRegisteredPlugins]).to.be.equals(['myPlugin'])
 
     await server.stop()
   })
