@@ -2,16 +2,16 @@
 
 const Code = require('code')
 const Hapi = require('hapi')
-const HapiHemera = require('../')
 const Hemera = require('nats-hemera')
 const Nats = require('nats')
 const HemeraTestsuite = require('hemera-testsuite')
+const HapiHemera = require('../')
 
-const expect = Code.expect
+const { expect } = Code
 
 describe('Custom Hemera instance', function() {
   const PORT = 6242
-  const noAuthUrl = 'nats://localhost:' + PORT
+  const noAuthUrl = `nats://localhost:${PORT}`
   let natsServer
 
   // Start up our own nats-server

@@ -1,3 +1,12 @@
 {
-  "extends": "hemera"
+  "extends": "hemera",
+  "overrides": [
+    {
+      "files": ["test/*.js"],
+      "rules": {
+        "node/no-unpublished-require": ["off"],
+        "func-names": ["off"]
+      }
+    }
+  ]
 }

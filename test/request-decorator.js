@@ -2,14 +2,14 @@
 
 const Code = require('code')
 const Hapi = require('hapi')
-const HapiHemera = require('../')
 const HemeraTestsuite = require('hemera-testsuite')
+const HapiHemera = require('../')
 
-const expect = Code.expect
+const { expect } = Code
 
 describe('Request decorator', function() {
   const PORT = 6242
-  const noAuthUrl = 'nats://localhost:' + PORT
+  const noAuthUrl = `nats://localhost:${PORT}`
   const flags = []
   let natsServer
 
@@ -49,7 +49,7 @@ describe('Request decorator', function() {
     server.route({
       method: 'GET',
       path: '/api/add',
-      handler: function(request, h) {
+      handler(request) {
         return request.hemera.act({
           topic: 'math',
           cmd: 'add'

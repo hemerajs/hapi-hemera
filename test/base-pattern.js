@@ -2,14 +2,14 @@
 
 const Code = require('code')
 const Hapi = require('hapi')
-const HapiHemera = require('../')
 const HemeraTestsuite = require('hemera-testsuite')
+const HapiHemera = require('../')
 
-const expect = Code.expect
+const { expect } = Code
 
 describe('Base Pattern', function() {
   const PORT = 6242
-  const noAuthUrl = 'nats://localhost:' + PORT
+  const noAuthUrl = `nats://localhost:${PORT}`
   let natsServer
 
   // Start up our own nats-server
@@ -27,7 +27,7 @@ describe('Base Pattern', function() {
     await server.register({
       plugin: HapiHemera,
       options: {
-        basePattern: function(request) {
+        basePattern() {
           const basePattern = {
             a: 1
           }
@@ -42,7 +42,7 @@ describe('Base Pattern', function() {
     server.route({
       method: 'GET',
       path: '/api/add',
-      handler: function(request, h) {
+      handler(request) {
         return request.hemera.pattern({ b: 2 })
       }
     })
@@ -72,7 +72,7 @@ describe('Base Pattern', function() {
     server.route({
       method: 'GET',
       path: '/api/add',
-      handler: function(request, h) {
+      handler(request) {
         return request.hemera.pattern({ b: 2 })
       }
     })
@@ -111,7 +111,7 @@ describe('Base Pattern', function() {
     server.route({
       method: 'GET',
       path: '/api/add',
-      handler: function(request, h) {
+      handler(request) {
         return request.hemera.act({
           topic: 'math',
           cmd: 'add'
