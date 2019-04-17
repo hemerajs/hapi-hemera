@@ -7,7 +7,6 @@ node_js:
   - "11"
 
 script:
-  - npm install
   - NODE_VERSION=$(echo $(node -v) | cut -c2-10) npm run test
 
 before_script:

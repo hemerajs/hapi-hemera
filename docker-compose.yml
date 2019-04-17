@@ -16,7 +16,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        BUILD_VERSION: 11.0.0
+        BUILD_VERSION: ${NODE_VERSION}
     environment:
       - NATS_URL=nats://nats:4222
     links:
