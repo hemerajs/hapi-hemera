@@ -2,26 +2,12 @@
 
 const Code = require('code')
 const Hapi = require('hapi')
-const HemeraTestsuite = require('hemera-testsuite')
 const HapiHemera = require('../')
 
 const { expect } = Code
 
 describe('Request decorator', function() {
-  const PORT = 6242
-  const noAuthUrl = `nats://localhost:${PORT}`
-  const flags = []
-  let natsServer
-
-  // Start up our own nats-server
-  before(function(done) {
-    natsServer = HemeraTestsuite.start_server(PORT, flags, done)
-  })
-
-  // Shutdown our server after we are done
-  after(function() {
-    natsServer.kill()
-  })
+  const noAuthUrl = process.env.NATS_URL || `nats://localhost:4222`
 
   it('Should be able to act with request hemera instance', async () => {
     const server = new Hapi.Server()
@@ -31,6 +17,9 @@ describe('Request decorator', function() {
         basePattern: {
           a: 1,
           b: 2
+        },
+        hemera: {
+          logLevel: 'silent'
         },
         nats: {
           url: noAuthUrl

@@ -2,25 +2,12 @@
 
 const Code = require('code')
 const Hapi = require('hapi')
-const HemeraTestsuite = require('hemera-testsuite')
 const HapiHemera = require('../')
 
 const { expect } = Code
 
 describe('Base Pattern', function() {
-  const PORT = 6242
-  const noAuthUrl = `nats://localhost:${PORT}`
-  let natsServer
-
-  // Start up our own nats-server
-  before(function(done) {
-    natsServer = HemeraTestsuite.start_server(PORT, done)
-  })
-
-  // Shutdown our server after we are done
-  after(function() {
-    natsServer.kill()
-  })
+  const noAuthUrl = process.env.NATS_URL || `nats://localhost:4222`
 
   it('Should be able to create base pattern with function', async () => {
     const server = new Hapi.Server()
@@ -32,6 +19,9 @@ describe('Base Pattern', function() {
             a: 1
           }
           return basePattern
+        },
+        hemera: {
+          logLevel: 'silent'
         },
         nats: {
           url: noAuthUrl
@@ -63,6 +53,9 @@ describe('Base Pattern', function() {
         basePattern: {
           a: 1
         },
+        hemera: {
+          logLevel: 'silent'
+        },
         nats: {
           url: noAuthUrl
         }
@@ -93,6 +86,9 @@ describe('Base Pattern', function() {
         basePattern: {
           a: 1,
           b: 2
+        },
+        hemera: {
+          logLevel: 'silent'
         },
         nats: {
           url: noAuthUrl
