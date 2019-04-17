@@ -2,9 +2,9 @@ language: node_js
 sudo: false
 
 node_js:
-  - "8"
-  - "10"
-  - "11"
+  - "8.10.0"
+  - "10.0.0"
+  - "11.0.0"
 
 script:
   - NODE_VERSION=$(echo $(node -v) | cut -c2-10) npm run test
