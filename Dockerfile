@@ -1,4 +1,5 @@
-FROM mhart/alpine-node:8.10.0
+ARG BUILD_VERSION=8.10.0
+FROM mhart/alpine-node:$BUILD_VERSION
 MAINTAINER FelipeBarrosCruz <felipe.barros.pt@gmail.com>
 
 RUN apk add --update \
