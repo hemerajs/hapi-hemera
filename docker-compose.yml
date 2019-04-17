@@ -1,0 +1,25 @@
+version: '3'
+services:
+  nats:
+    image: 'nats:latest'
+    entrypoint: "/gnatsd -DV"
+    logging:
+      driver: none
+    expose:
+      - "4222"
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+  lib-test:
+    tty: true
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BUILD_VERSION: ${NODE_VERSION}
+    environment:
+      - NATS_URL=nats://nats:4222
+    links:
+      - nats
+    depends_on:
+      - nats

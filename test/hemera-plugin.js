@@ -1,7 +1,6 @@
 'use strict'
 
 const Hapi = require('hapi')
-const HemeraTestsuite = require('hemera-testsuite')
 const hemeraInternalSymbols = require('nats-hemera/lib/symbols')
 const Code = require('code')
 const Hp = require('hemera-plugin')
@@ -10,19 +9,7 @@ const HapiHemera = require('../lib')
 const { expect } = Code
 
 describe('Hemera plugin registration', function() {
-  const PORT = 6242
-  const noAuthUrl = `nats://localhost:${PORT}`
-  let natsServer
-
-  // Start up our own nats-server
-  before(done => {
-    natsServer = HemeraTestsuite.start_server(PORT, done)
-  })
-
-  // Shutdown our server after we are done
-  after(() => {
-    natsServer.kill()
-  })
+  const noAuthUrl = process.env.NATS_URL || `nats://localhost:4222`
 
   it('Should be able to register a plugin', async () => {
     const server = new Hapi.Server()
@@ -41,6 +28,9 @@ describe('Hemera plugin registration', function() {
       plugin: HapiHemera,
       options: {
         plugins: [myPlugin],
+        hemera: {
+          logLevel: 'silent'
+        },
         nats: {
           url: noAuthUrl
         }
@@ -69,6 +59,9 @@ describe('Hemera plugin registration', function() {
       plugin: HapiHemera,
       options: {
         plugins: [{ register: myPlugin, options: { b: 2 } }],
+        hemera: {
+          logLevel: 'silent'
+        },
         nats: {
           url: noAuthUrl
         }
